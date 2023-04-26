@@ -12,7 +12,7 @@ spec:
         app: helloping1
     spec:
       containers:
-        - image: okteto.dev/helloping1:latest
+        - image: cqueirolo/helloping1:latest
           name: helloping1
 
 ---
