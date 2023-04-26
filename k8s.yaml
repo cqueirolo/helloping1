@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloping1
+spec:
+  selector:
+    matchLabels:
+      app: helloping1
+  template:
+    metadata:
+      labels:
+        app: helloping1
+    spec:
+      containers:
+        - image: okteto.dev/helloping1:latest
+          name: helloping1
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloping1
+spec:
+  type: ClusterIP
+  ports:
+    - name: helloping1
+      port: 8080
+  selector:
+    app: helloping1
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: helloping1
+  annotations:
+    dev.okteto.com/generate-host: helloping1
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: helloping1
+                port:
+                  number: 8080
+            path: /
+            pathType: ImplementationSpecific
